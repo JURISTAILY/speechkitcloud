@@ -35,7 +35,7 @@ DEFAULT_LANG_VALUE = 'ru-RU'
 
 DEFAULT_UUID_VALUE = randomUuid().hex
 
-DEFAULT_CHUNK_SIZE_VALUE = 1024*32*2
+DEFAULT_CHUNK_SIZE_VALUE = 141120*2
 DEFAULT_RECONNECT_DELAY = 0.5
 DEFAULT_RECONNECT_RETRY_COUNT = 5
 DEFAULT_PENDING_LIMIT = 50
@@ -43,11 +43,12 @@ DEFAULT_PENDING_LIMIT = 50
 DEFAULT_INTER_UTT_SILENCE = 120
 DEFAULT_CMN_LATENCY = 50
 
+
 def bytes_in_sec(format):
-    if "8000" in format:
-        return 16000
-    else:
-        return 32000
+    # Parsing string 'audio/x-pcm;bit=16;rate=16000'
+    parts = format.split(';')[1:]  # ['bit=16', 'rate=16000']
+    bit, rate = (int(x.split('=')[1]) for x in parts)  # 16, 16000
+    return int(bit / 8 * rate)  # 32000
 
 
 def read_chunks_from_pyaudio(chunk_size = DEFAULT_CHUNK_SIZE_VALUE):
