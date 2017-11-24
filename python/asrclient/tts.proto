@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-import "ttsbackend.proto";
+import "asrclient/ttsbackend.proto";
 
 package TTS;
 

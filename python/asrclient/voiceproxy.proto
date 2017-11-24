@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-import "basic.proto";
+import "asrclient/basic.proto";
 
 package VoiceProxyProtobuf;
 
