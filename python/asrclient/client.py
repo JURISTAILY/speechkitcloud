@@ -35,7 +35,7 @@ DEFAULT_LANG_VALUE = 'ru-RU'
 
 DEFAULT_UUID_VALUE = randomUuid().hex
 
-DEFAULT_CHUNK_SIZE_VALUE = 141120*2
+DEFAULT_CHUNK_SIZE_VALUE = 1024*32*2
 DEFAULT_RECONNECT_DELAY = 0.5
 DEFAULT_RECONNECT_RETRY_COUNT = 5
 DEFAULT_PENDING_LIMIT = 50
@@ -103,14 +103,14 @@ class ServerConnection(object):
         self.expected_num_count = expected_num_count
         self.snr = snr
         self.disable_antimat_normalizer = disable_antimat_normalizer
-        
+
         if not snr_flags:
             self.snr_flags = []
         elif isinstance(snr_flags, str) or isinstance(snr_flags, unicode):
             self.snr_flags = [a.split("=") for a in snr_flags.split(",")]
         else:
             self.snr_flags = snr_flags
-        
+
         self.grammar_file = grammar_file
 
         self.log("uuid={0}".format(self.uuid))
@@ -282,7 +282,7 @@ def recognize(chunks,
     class PendingRecognition(object):
         def __init__(self):
             self.logger = logging.getLogger('asrclient')
-            
+
             self.server = ServerConnection(server, port, key, app, service, model, lang, format, uuid, inter_utt_silence, cmn_latency, biometry, self.logger, not nopunctuation, ipv4, capitalize, expected_num_count, snr, snr_flags, grammar_file, disable_antimat_normalizer)
             self.unrecognized_chunks = []
             self.retry_count = 0
@@ -331,7 +331,7 @@ def recognize(chunks,
                         self.correction_delta = self.last_end_time
 
                     self.last_end_time = end_time
-                
+
                 if advanced_callback is not None:
                     try:
                         advanced_callback(response, self.correction_delta)
